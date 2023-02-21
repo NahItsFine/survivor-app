@@ -1,0 +1,103 @@
+<div class="content-left" role="main" *ngIf="page_loaded">
+
+    <div class="back_div">
+      <button mat-flat-button color="accent" class="back_btn" (click)="onBack()">
+          Back To Account
+      </button>
+    </div>
+
+    <!-- Game Info -->
+    <app-game-info [game_info] = 'full_game_info'></app-game-info>
+
+    <!-- Admin Controls -->
+    <mat-card *ngIf="is_admin" class="banner">
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon aria-hidden="false" aria-label="current games icon">settings</mat-icon>
+            </div>
+            <mat-card-title>Admin Controls</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="admin_content">
+            <button mat-flat-button *ngIf="(!is_active && joinable); else showThis" color="accent" (click)="start_game_confirm()">Start Game</button>
+            <ng-template #showThis>  
+                <span matTooltip="Game In Progress"><button mat-flat-button color="accent" disabled>Start Game</button></span>    
+            </ng-template>
+            <button class="admin_button" mat-flat-button *ngIf="is_active; else roundDisabled" color="accent" (click)="start_round_confirm()">Start Next Round</button>
+            <ng-template #roundDisabled>  
+                <span matTooltip="Game Inactive"><button class="admin_button" mat-flat-button color="accent" disabled>Start Next Round</button></span>    
+            </ng-template>
+            <button class="admin_button" mat-flat-button *ngIf="is_active; else endDisabled" color="accent" (click)="end_game_confirm()">End Game</button>
+            <ng-template #endDisabled>  
+                <span matTooltip="Game Inactive"><button class="admin_button" mat-flat-button color="accent" disabled>End Game</button></span>
+            </ng-template>
+        </mat-card-content>
+    </mat-card>
+
+
+    <!-- Current Game - Player Status (current tribe) -->
+    <mat-card class="banner">
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon aria-hidden="false" aria-label="current games icon">person_outline</mat-icon>
+            </div>
+            <mat-card-title>Player Info</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-card class="banner" [ngClass]="{'cur_orange':is_still_playing && player_tribe_colour==0, 'cur_purple':is_still_playing && player_tribe_colour==1}">
+                <mat-card-header>
+                    <div mat-card-avatar>
+                        <img [src]="player_avatar"/>
+                    </div>
+                    <mat-card-title>{{player_username}}</mat-card-title> 
+                </mat-card-header>
+                <mat-card-content id="cur_player_info">
+                    <span id="idol_count">
+                        <img id="idol_icon" src="../../../assets/idol.png" matTooltip="Idol Count"/><h2 matTooltip="Idol Count">x{{player_idol_count}}</h2>
+                        <button class="transfer_idol_button" mat-flat-button *ngIf="player_idol_count! > 0 && is_still_playing; else noIdol" color="accent" (click)="open_transfer_dialog()">Transfer Idol</button>
+                        <ng-template #noIdol>      
+                            <span *ngIf="!is_still_playing; else idolOut" matTooltip="Youuuuu'ree OUUUUUUT!" matTooltipPosition="right"><button class="transfer_idol_button" mat-flat-button color="accent" disabled>Transfer Idol</button></span>
+                            <ng-template #idolOut>  
+                                <span matTooltip="You don't have any!" matTooltipPosition="right"><button class="transfer_idol_button" mat-flat-button color="accent" disabled>Transfer Idol</button></span>
+                            </ng-template>
+                        </ng-template>
+                    </span>
+                    <h2 *ngIf="is_still_playing; else showThis">Current Status: On The Island</h2>
+                    <ng-template #showThis>      
+                        <h2>Current Status: Voted Off The Island</h2>
+                    </ng-template>
+                </mat-card-content>
+            </mat-card>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Current Round -->
+    <app-current-round [game_id]='game_id!' [current_user]='player_username!'></app-current-round>
+
+    <!-- Timeline -->
+    <mat-accordion class="accordion">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>timeline</mat-icon>
+                    Rounds History
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-timeline id="timeline" [game_id]=game_id [current_user]='player_username'></app-timeline>
+        </mat-expansion-panel>
+    </mat-accordion>
+    
+    <!-- Players -->
+    <mat-accordion class="accordion">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>people</mat-icon>
+                    Players
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngFor="let player of game_players">
+                <app-player-info [player]=player></app-player-info>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

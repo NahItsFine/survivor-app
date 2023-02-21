@@ -1,0 +1,186 @@
+<div *ngIf="!vote_tie_again; else second_tie">
+    <div *ngIf="player_can_vote">
+        <div *ngIf="!vote_received; else vote_done">
+            <div *ngIf="votable_players">
+                <h2>Select A Player To Vote Off The Island:</h2>
+                <div class="center-cards">
+                    <mat-grid-list cols="2" rowHeight="3.5:1">
+                        <div *ngFor="let player of votable_players">
+                            <div *ngIf="!player.is_immune">
+                                <mat-grid-tile>
+                                    <mat-card class="primary player_vote_card" (click)="onVote(player)">
+                                        <mat-card-header>
+                                            <div mat-card-avatar>
+                                                <img [src]="sanitizeAvatar(player.avatar)"/>
+                                            </div>
+                                            <mat-card-title class="player_vote_card_title">{{player.account_name}}</mat-card-title>
+                                            <mat-card-subtitle>{{player.discord_name}}</mat-card-subtitle>
+                                        </mat-card-header>
+                                    </mat-card>
+                                </mat-grid-tile>
+                            </div>
+                        </div>
+                    </mat-grid-list>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #vote_done>
+        <h3>Your vote has been counted.</h3>
+    </ng-template>
+    
+    <div *ngIf="num_votes_left!=0 || num_votes_total!=0">
+        <h3>Votes Casted: <span class="vote_numbers">{{num_votes_total! - num_votes_left!}} / {{num_votes_total}}</span></h3>
+
+        <div *ngIf="is_admin">
+            <div *ngIf="!vote_tie; else tie_skip_idol">
+                <div *ngIf="!idol_use_period; else voting_in_progress">
+                    <button mat-flat-button color="accent" (click)="onIdolUsePeriod()">
+                        Enter Idol Use Period
+                    </button>
+                </div>
+                <ng-template #voting_in_progress>
+                    <button mat-flat-button color="accent" disabled>
+                        Enter Idol Use Period
+                    </button>
+                </ng-template>
+            </div>
+
+            <ng-template #tie_skip_idol>
+                <div *ngIf="!vote_reveal_period; else tie_voting_in_progress">
+                    <button mat-flat-button color="accent" (click)="onVoteRevealPeriod()">
+                        Enter Vote Reveal Period
+                    </button>
+                </div>
+                <ng-template #tie_voting_in_progress>
+                    <button mat-flat-button color="accent" disabled>
+                        Enter Vote Reveal Period
+                    </button>
+                </ng-template>
+            </ng-template>
+
+        </div>
+    </div>
+
+    <div *ngIf="idol_use_period">
+        <br>
+        <hr class="text-accent">
+        <div *ngIf="player_can_vote">
+            <div *ngIf="player_idol_count! > 0; else no_idols">
+                <div *ngIf="!player_used_idol; else used_idol">
+                    <h2>You currently have <span class="text-accent">{{player_idol_count}}</span> idol(s), do you wish to play one?</h2>
+                    <h3 class="text-warn">WARNING: Don't fat finger this, only click if you are certain.</h3>
+                    <button mat-flat-button color="accent" (click)="onUseIdol()" [disabled]="disable_idol_btn">
+                        Hell yea person
+                    </button>
+                </div>
+                <ng-template #used_idol>
+                    <h3>You have successfully played your idol, and are immune for the remainder of Tribal Council.</h3>
+                </ng-template>
+            </div>
+            <ng-template #no_idols>
+                <h3>You have no idols, please wait while other players potentially play theirs.</h3>
+            </ng-template>
+        </div>
+
+        <br>
+
+        <div *ngFor="let player of players_who_used_idol">
+            <h3><span class="text-accent">{{player}} </span> has played an immunity idol!</h3>
+        </div>
+
+        <br> 
+
+        <div *ngIf="is_admin">
+            <div *ngIf="!vote_reveal_period; else disable_reveal_btn">
+                <button mat-flat-button color="primary" (click)="onVoteRevealPeriod()">
+                    Enter Vote Reveal Period
+                </button>
+            </div>
+            <ng-template #disable_reveal_btn>
+                <button mat-flat-button color="primary" disabled>
+                    Enter Vote Reveal Period
+                </button>
+            </ng-template>
+        </div>
+
+    </div>
+
+    <div *ngIf="vote_reveal_period">
+        <br>
+        <hr class="text-accent">
+
+        <h2>Voting Results:</h2>
+
+        <div>
+            <mat-grid-list cols="2" rowHeight="3.5:1">
+                    <div *ngFor="let player of all_votes_display | keyvalue">
+                        <mat-grid-tile> 
+                            <mat-card [ngClass]="{
+                                'immune' : player.value[1], 
+                                'primary' : !player.value[1]
+                            }" matTooltip="{{player.value[0]}} Votes Against" matTooltipPosition='below'>
+                                <mat-card-header>
+                                    <mat-card-title>{{player.key}}</mat-card-title>
+                                </mat-card-header>
+                                <mat-progress-bar color='accent' mode="determinate" value="{{player.value[0]/max_vote*100}}"></mat-progress-bar>
+                            </mat-card>
+                        </mat-grid-tile>
+                    </div>
+            </mat-grid-list>
+        </div>
+    </div>
+</div>
+
+<ng-template #second_tie>
+    <h2>Final Tie Breaker:</h2>
+    <h3>
+        Players must discuss to <span class="text-accent">UNANIMOUSLY</span> decide on who amongst the tied to vote out. <br>
+        If no concensus can be met, a <span class="text-accent">RANDOM non-tied, non-idoled player</span> will be eliminated. <br>
+        In the case where there are no non-tied players, all a random non-idoled player will be eliminated.
+    </h3>
+    <h4>The Admin will enter the results into the application.</h4>
+
+    <!-- IF ADMIN -->
+    <div *ngIf="is_admin">
+        <br>
+        <hr class="text-accent">
+
+        <h3>Concensus player to eliminate:</h3>
+        <mat-form-field appearance="fill">
+            <mat-label>Player Username</mat-label>
+            <mat-select [(ngModel)]="selected_player" name="votable_players">
+                <mat-option *ngFor="let player of votable_players" [value]="player.account_name">
+                    {{player.account_name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-flat-button style="margin-left: 15px;" color="primary" (click)="onEliminateSelectedPlayer()"  [disabled]="has_eliminated_player">
+            Eliminate Selected Player
+        </button>
+
+        <br>
+
+        <h3 class="underline">OR</h3>
+
+        <button mat-flat-button color="accent" (click)="onEliminateRandomPlayer()" [disabled]="has_eliminated_player">
+            Eliminate Random Player
+        </button>
+    </div>
+
+    <br>
+    <hr class="text-accent">
+
+</ng-template>
+
+<div *ngIf="show_vote_result">
+    <hr class="text-accent">
+    <h2>Player Elimination:</h2>
+ 
+    <h3><span class="text-accent">{{eliminated_player}}</span> has been voted off the Island.</h3>
+    <h4>Press F to pay respects.</h4>
+
+    <br>
+    <hr class="text-accent">
+</div>

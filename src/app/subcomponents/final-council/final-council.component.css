@@ -1,0 +1,67 @@
+mat-card {
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+mat-card-title.player_vote_card_title {
+    text-decoration: underline;
+    text-decoration-color: #ff9900;
+    margin-left: 15px;
+}
+
+mat-card-subtitle {
+    margin-left: 15px;
+}
+mat-card-content {
+    padding-left: 25px;
+}
+
+mat-card.player_vote_card:hover{
+    cursor: pointer;
+    background-color: #e68a00!important;
+}
+
+img {
+    max-width: 100%;
+    object-fit:contain;
+    border-radius: 5%;
+    width: 75%;
+    margin: auto;
+    display: block;
+}
+
+.center-cards {
+    display: flexbox;
+    align-content: center;
+    justify-content: center;
+}
+
+.primary {
+    background-color: rgba(87, 119, 131, 0.4);
+}
+
+.immune {
+    background-color: rgba(88, 131, 87, 0.753);
+}
+
+.secondary {
+    background-color: rgb(34, 96, 119);
+}
+
+.orange {
+    background-color: #e68a00!important;
+}
+
+.vote_numbers {
+    text-decoration: underline;
+    text-decoration-color: #ff9900;
+    margin-left: 15px;
+}
+
+.underline {
+    text-decoration: underline;
+    text-decoration-color: #ff9900;
+}
+

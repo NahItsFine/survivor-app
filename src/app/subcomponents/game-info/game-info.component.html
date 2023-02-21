@@ -1,0 +1,31 @@
+<mat-card class="banner">
+    <mat-card-header>
+        <div mat-card-avatar>
+            <mat-icon id="play_icon">play_circle_outline</mat-icon>
+        </div>
+        <mat-card-title id="title">{{game_info.name}}</mat-card-title>
+    </mat-card-header>  
+    <mat-icon id="info_icon"
+        matTooltip={{tooltip_info}}
+        matTooltipClass="multiline-tooltip"
+        matTooltipPosition='left'>   
+        info
+    </mat-icon>
+    <a href={{game_info.discord_link}} target="_blank"><img id="discord_icon" src="../../../assets/discord_icon.png"/></a>  
+    <mat-card-content>
+    <br>
+        <!-- Progress Bar Value Going to be based on num_rounds_played/num_rounds -->
+        <!-- <h3>Password: </h3>
+        <p>{{game_info.password}}</p> -->
+        <div *ngIf="!game_info.is_active && !game_info.joinable; else show_progress">
+            <span matTooltip="Game completed" matTooltipPosition='left'>
+                <mat-progress-bar color='accent' mode="determinate" value=100></mat-progress-bar>
+            </span>
+        </div>
+        <ng-template #show_progress >
+            <span matTooltip={{game_progress_info}} matTooltipPosition='left'>
+                <mat-progress-bar color='accent' mode="determinate" value={{game_progress}}></mat-progress-bar>
+            </span>
+        </ng-template>
+    </mat-card-content>
+</mat-card>

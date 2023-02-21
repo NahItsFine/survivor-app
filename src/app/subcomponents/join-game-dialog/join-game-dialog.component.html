@@ -1,0 +1,32 @@
+<div class="content-dialog">
+
+    <h2>Join An Existing Game:</h2>
+    <form class="form">
+        <mat-form-field class="form-full-width">
+            <mat-label>Game Name</mat-label>
+            <input matInput #input_name value="">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field class="form-full-width">
+            <mat-label>Game Password</mat-label>
+            <input matInput id="in_password" #input_password [type]="hide ? 'password' : 'text'">
+        </mat-form-field>
+    </form>
+
+    <div class="buttons">
+        <button mat-flat-button color="accent" (click)="onBack()">Back</button>
+        <button mat-flat-button color="primary" (click)="onJoin(
+            input_name.value,
+            input_password.value
+        )">Join Game</button>
+    </div>
+
+    <br>
+    
+    <p class='text-warn'>
+        {{join_message}}
+    </p>
+
+</div>

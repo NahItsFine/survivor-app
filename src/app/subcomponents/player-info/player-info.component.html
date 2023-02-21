@@ -1,0 +1,10 @@
+<!-- Primary indicates greyed out or not. orange/purple if active and in tribe. -->
+<mat-card id={{player.name}} [ngClass]="{'primary' : player.is_still_playing, 'orange' : player.tribe_colour == 0 && player.is_still_playing, 'purple' : player.tribe_colour == 1 && player.is_still_playing}">
+    <mat-card-header>
+        <div mat-card-avatar>
+            <img [src]="cur_avatar"/>
+        </div>
+        <mat-card-title><span matTooltip="King Shit" *ngIf="player.is_admin">🔯 </span>{{player.name}} - {{player.discord_name}}</mat-card-title>  
+        <mat-card-subtitle>{{player.bio}}</mat-card-subtitle>
+    </mat-card-header>
+</mat-card>

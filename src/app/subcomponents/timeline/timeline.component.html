@@ -1,0 +1,18 @@
+<div id="timeline_container" role="main">
+
+    <mat-vertical-stepper #stepper color="primary" id="stepper">
+        <ng-template matStepperIcon="number" let-index="index">
+            <span [ngStyle]="{'color': '#ffffff'}">{{index+1}}</span>
+        </ng-template>
+        <ng-template matStepperIcon="done" let-index="index">
+            <span [ngStyle]="{'color': '#ffffff'}">{{index+1}}</span>
+        </ng-template>
+        <ng-template matStepperIcon="edit" let-index="index">
+            <span [ngStyle]="{'color': '#ffffff'}">{{index+1}}</span>
+        </ng-template>
+
+        <mat-step *ngFor="let round of rounds!.slice(0, -1)" color="accent">
+            <app-timeline-mat-step [round]=round [current_user]=current_user [game_id]=game_id></app-timeline-mat-step>
+        </mat-step>
+    </mat-vertical-stepper>
+</div>

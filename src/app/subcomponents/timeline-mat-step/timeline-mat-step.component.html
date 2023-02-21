@@ -1,0 +1,26 @@
+<!-- <mat-step> -->
+
+    <!-- <ng-template matStepLabel>Round {{round.round_num}}</ng-template> -->
+    <span class="round_container">
+        <h3><span class="header">Date:</span> {{round.day}}</h3>
+
+        <h3 *ngIf="winner_name"><span class="header">Winner:</span> {{winner_name}}</h3>
+        <h3 class="header" *ngIf="!round.winning_player && !round.winning_tribe">No Winner This Round</h3>
+
+        <h3 *ngIf="round.eliminated_player; else showThis"><span class="header">Eliminated Player:</span> {{eliminated_player}}</h3>
+        <ng-template #showThis>      
+            <h3 class="header">No Eliminations</h3>
+        </ng-template>
+
+        <h3 *ngIf="round.type==0"><span class="header">Type:</span> Tribe Challenge</h3>
+        <h3 *ngIf="round.type==1"><span class="header">Type:</span> Individual Challenge</h3>
+        <h3 *ngIf="round.type==2"><span class="header">Type:</span> Final 4</h3>
+        <h3 *ngIf="round.type==3"><span class="header">Type:</span> Final 3</h3>
+
+        <h3><span class="header">Challenge:</span> {{challenge_name}}</h3>
+
+        <button mat-flat-button  color="accent" (click)="go_to_round()">Go To Round</button>
+    </span>
+
+<!-- </mat-step> -->
+

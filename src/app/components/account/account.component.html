@@ -1,0 +1,109 @@
+<div class="content-left" role="main">
+
+    <div class="back_div">
+      <button mat-flat-button color="accent" class="back_btn" (click)="onLogout()">
+          Logout
+      </button>
+    </div>
+
+    <!-- Account info -->
+    <div class="banner">
+        <app-account-info username={{username}}></app-account-info>
+    </div>
+
+    <!-- Current Games -->
+    <mat-card class="banner">
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon aria-hidden="false" aria-label="current games icon">games</mat-icon>
+            </div>
+            <mat-card-title>Current Games</mat-card-title>
+            <mat-card-subtitle>
+                <button mat-flat-button color="primary" (click)="openCreateGame()">Create Game</button>
+                <button mat-flat-button color="primary" (click)="openJoinGame()">Join Game</button>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div *ngFor="let game of current_games">
+                <div class="game_card" (click)="goToGame(game)">
+                    <app-game-info [game_info]='game'></app-game-info>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    
+    <!-- Completed Games -->
+    <mat-accordion class="accordion">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>history</mat-icon>
+                    Completed Games
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngFor="let game of completed_games">
+                <div class="game_card" (click)="goToGame(game)">
+                    <app-game-info [game_info]='game'></app-game-info>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <!-- Rules -->
+    <mat-accordion class="accordion">
+        <mat-expansion-panel #rules="matExpansionPanel">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>assignment</mat-icon>
+                    How To Play
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <!-- HARD CODED FOR NOW -->
+            <app-rules></app-rules>
+
+            <mat-action-row>
+                <button mat-flat-button color="primary" class="text-right" (click)="rules.expanded=false;">Collapse</button>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <!-- Challenges -->
+    <mat-accordion class="accordion">
+        <mat-expansion-panel #challenges_panel="matExpansionPanel">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>sports_kabaddi</mat-icon>
+                    List of Challenges
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div *ngIf="challenges_loaded">
+                <h1> Tribal Challenges </h1>
+                <div *ngFor="let challenge of challenges.tribal_challenges">
+                    <app-challenge-info [challenge]=challenge></app-challenge-info>
+                </div>
+
+                <h1>  Individual Challenges </h1>
+                <div *ngFor="let challenge of challenges.individual_challenges">
+                    <app-challenge-info [challenge]=challenge></app-challenge-info>
+                </div>
+
+                <h1>  Final 4 Challenges </h1>
+                <div *ngFor="let challenge of challenges.final_four_challenges">
+                    <app-challenge-info [challenge]=challenge></app-challenge-info>
+                </div>
+
+                <h1>  Tower Challenge </h1>
+                <div *ngFor="let challenge of challenges.tower_challenge">
+                    <app-challenge-info [challenge]=challenge></app-challenge-info>
+                </div>
+            </div>
+
+            <mat-action-row>
+                <button mat-flat-button color="primary" class="text-right" (click)="challenges_panel.expanded=false;">Collapse</button>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+</div>

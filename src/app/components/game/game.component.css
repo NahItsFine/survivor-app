@@ -1,0 +1,81 @@
+mat-expansion-panel {
+    background-color: rgba(87, 119, 131, 0.4);
+}
+
+mat-expansion-panel-header {
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+mat-panel-title mat-icon {
+    padding-left: 10px;
+    padding-right: 30px;
+}
+
+mat-card-header button {
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+mat-card-content#cur_player_info {
+    padding-left: 50px;
+}
+
+h1 {
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: #ff9900;
+}
+
+#idol_count{
+    display: flex;
+    float: right;
+    margin-left: -25px;
+    margin-right: 10px;
+    margin-top: -20px;
+}
+#idol_icon {
+    width: 60px;
+    height: 60px;
+    justify-self: flex-start;
+    margin-top: -12px;
+}
+.transfer_idol_button {
+    /* margin-top: -15px; */
+    margin-left: 15px;
+    height: 80%;
+}
+
+.admin_content{
+    padding-left: 50px;
+}
+/* .admin_content > button{
+    padding-right: 20px;
+} */
+
+.admin_button {
+    margin-left: 30px;
+}
+
+.cur_orange{
+    border: 2px solid #e68a00!important;
+}
+.cur_purple{
+    border: 2px solid #5c00e6!important;
+}
+
+img {
+    width: 50px;
+    height:50px;
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 50%;
+}
+
+/* div.mat-vertical-content.ng-tns-c113-6:hover{
+    cursor: pointer!important;
+    border: 1px solid #ff9900;
+} */

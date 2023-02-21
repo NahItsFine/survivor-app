@@ -1,0 +1,56 @@
+mat-card {
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+mat-card-title#title {
+    font-size: 32px;
+    padding-top: 5px;
+}
+
+mat-card-content {
+    margin-top: -36px;
+    padding-left: 58px;
+    padding-right: 58px;
+}
+
+h4 {
+    margin: 0;
+    padding-bottom: 5px;
+    font-weight: 500;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+.primary {
+    background-color: rgba(87, 119, 131, 0.4);
+}
+
+.secondary {
+    background-color: rgba(101, 183, 212, 0.3);
+}
+
+#discord_icon {
+    width: 38px;
+    height: 38px;
+    float: right;
+    justify-self: flex-end;
+}
+
+#play_icon {
+    font-size: 30px;
+}
+#info_icon {
+    justify-self: flex-start;
+    padding-left: 1px;
+    padding-top: 12px;
+    font-size: 30px;
+    white-space: pre-line;
+}
+#info_icon:hover {
+    cursor: default;
+    white-space: pre-line;
+}

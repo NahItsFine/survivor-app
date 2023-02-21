@@ -1,0 +1,36 @@
+mat-card {
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+mat-card-title {
+    text-decoration: underline;
+    text-decoration-color: #ff9900;
+}
+
+mat-card-content {
+    padding-left: 25px;
+}
+
+h3 {
+    margin: 0;
+    padding-bottom: 5px;
+    font-weight: 500;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+.primary {
+    background-color: rgba(87, 119, 131, 0.4);
+}
+
+.secondary {
+    background-color: rgba(101, 183, 212, 0.3);
+}
+
+span {
+    color: #ffb546;
+}

@@ -1,0 +1,87 @@
+<div class="content" id="create_form" role="main">
+
+  <img src="../assets/frontpage.png" alt="Virtual Survivor">
+
+  <h1 class="text-left">Account Creation</h1>
+  <h5 class="text-left text-primary">* All fields below are mandatory</h5>
+
+  <form class="form">
+    <mat-form-field class="form-full-width">
+      <mat-label>Username</mat-label>
+      <input matInput #input_username value="">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class="form-full-width">
+      <mat-label>Password</mat-label>
+      <input matInput id="in_password" #input_password value="" (change)="onPasswordChange(input_password.value, input_password_confirm.value)" value="" [type]="hide ? 'password' : 'text'">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class="form-full-width">
+      <mat-label>Confirm Password</mat-label>
+      <input matInput id="in_password_confirm" #input_password_confirm value="" (change)="onPasswordChange(input_password.value, input_password_confirm.value)" value="" [type]="hide ? 'password' : 'text'">
+    </mat-form-field>
+
+    <p id="p_password">
+        {{password_message}}
+    </p>
+
+    <br>
+
+    <mat-form-field class="form-full-width">
+        <mat-label>Your Name</mat-label>
+        <input matInput #input_name value="">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class="form-full-width">
+        <mat-label>Discord Name (i.e "Spyral#9645")</mat-label>
+        <input matInput #input_discord value="">
+    </mat-form-field>
+
+    <br>
+
+      <mat-label>Profile Picture</mat-label>
+      <app-image-upload #input_avatar></app-image-upload>
+
+    <br>
+
+    <mat-form-field class="form-full-width">
+        <mat-label>Player Bio</mat-label>
+        <textarea matInput #input_bio placeholder="i.e I like cats"></textarea>
+    </mat-form-field>
+
+  </form>
+
+  <div class='element-center'>    
+        <button mat-flat-button color="accent" (click)="onBack()">Back</button>
+        <button mat-flat-button color="primary" (click)="onSubmit(
+          input_username.value,
+          input_password.value,
+          input_password_confirm.value,
+          input_name.value,
+          input_discord.value,
+          input_avatar.imageSrc,
+          input_bio.value
+        )">Submit</button>
+        <p class='text-warn'>
+            {{submit_message}}
+        </p>
+  </div>
+
+</div>
+
+<div class="content element-hidden" id="create_done" role="main">
+    <img src="../assets/frontpage.png" alt="Virtual Survivor">
+
+    <h1 class="text-left">Account has been created!</h1>
+
+    <div class='element-center'>    
+        <button mat-flat-button color="primary" (click)="onBack()">Back To Login</button>
+    </div>
+
+</div>

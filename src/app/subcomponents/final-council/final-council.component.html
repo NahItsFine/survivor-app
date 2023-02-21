@@ -1,0 +1,114 @@
+<div *ngIf="!game_completed; else only_show_winner">
+    <div *ngIf="discussion_period; else vote_period">
+        <h2>The Finalists will now receive time to make their case about why they deserve to win.</h2>
+        <h2>There will also be an open Q and A period for the Finalists from the Jury.</h2>
+
+        <div *ngIf="is_admin">
+            <button mat-flat-button color="accent" (click)="onVotePeriod()">
+                Enter Voting Period
+            </button>
+        </div>
+    </div>
+
+    <ng-template #vote_period>
+        <div *ngIf="!vote_received; else vote_done">
+            <div *ngIf="votable_players">
+                <h2>Select who you think deserves to be the Winner of Virtual Survivor:</h2>
+                <div class="center-cards">
+                    <mat-grid-list cols="2" rowHeight="3.5:1">
+                        <div *ngFor="let player of votable_players">
+                            <div *ngIf="!player.is_immune">
+                                <mat-grid-tile>
+                                    <mat-card class="primary player_vote_card" (click)="onVote(player)">
+                                        <mat-card-header>
+                                            <div mat-card-avatar>
+                                                <img [src]="sanitizeAvatar(player.avatar)"/>
+                                            </div>
+                                            <mat-card-title class="player_vote_card_title">{{player.account_name}}</mat-card-title>
+                                            <mat-card-subtitle>{{player.discord_name}}</mat-card-subtitle>
+                                        </mat-card-header>
+                                    </mat-card>
+                                </mat-grid-tile>
+                            </div>
+                        </div>
+                    </mat-grid-list>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #vote_done>
+            <h3>Your vote has been counted.</h3>
+        </ng-template>
+
+        <div *ngIf="num_votes_left || num_votes_total">
+            <h3>Votes Casted: <span class="vote_numbers">{{num_votes_total! - num_votes_left!}} / {{num_votes_total}}</span></h3>
+
+            <div *ngIf="is_admin">
+                <div *ngIf="!vote_reveal_period; else voting_in_progress">
+                    <button mat-flat-button color="accent" (click)="onVoteRevealPeriod()">
+                        Enter Vote Reveal Period
+                    </button>
+                </div>
+                <ng-template #voting_in_progress>
+                    <button mat-flat-button color="accent" disabled>
+                        Enter Vote Reveal Period
+                    </button>
+                </ng-template>
+            </div>
+        </div>
+
+
+        <div *ngIf="vote_reveal_period">
+            <br>
+            <hr class="text-accent">
+
+            <h2>Voting Results:</h2>
+
+            <div>
+                <mat-grid-list cols="2" rowHeight="3.5:1">
+                        <div *ngFor="let player of all_votes_display | keyvalue">
+                            <mat-grid-tile> 
+                                <mat-card [ngClass]="{
+                                    'immune' : player.value[1], 
+                                    'primary' : !player.value[1]
+                                }" matTooltip="{{player.value[0]}} Votes Against" matTooltipPosition='below'>
+                                    <mat-card-header>
+                                        <mat-card-title>{{player.key}}</mat-card-title>
+                                    </mat-card-header>
+                                    <mat-progress-bar color='accent' mode="determinate" value="{{player.value[0]/max_vote*100}}"></mat-progress-bar>
+                                </mat-card>
+                            </mat-grid-tile>
+                        </div>
+                </mat-grid-list>
+            </div>
+        </div>
+
+        <div *ngIf="show_vote_result">
+            <br>
+            <hr class="text-accent">
+            <h2>The Winner of Virtual Survivor is...</h2>
+            
+            <div *ngIf="winning_player_info">
+                <app-player-info [player]=winning_player_info></app-player-info>
+                <img src="../../../assets/Rowley.jpg" alt="Zoo Wee Mama!"/>
+            </div>
+
+            <br>
+            <hr class="text-accent">
+        </div>
+    </ng-template>
+</div>
+
+<ng-template #only_show_winner>
+    <br>
+    <hr class="text-accent">
+    <h2>The Winner of Virtual Survivor is...</h2>
+    
+    <div *ngIf="winning_player_info">
+        <app-player-info [player]=winning_player_info></app-player-info>
+        <img src="../../../assets/Rowley.jpg" alt="Zoo Wee Mama!"/>
+    </div>
+
+    <br>
+    <hr class="text-accent">
+</ng-template>

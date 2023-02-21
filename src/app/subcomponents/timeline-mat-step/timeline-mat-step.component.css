@@ -1,0 +1,26 @@
+.mat-stepper-horizontal {
+    margin-top: 8px;
+}
+
+.mat-form-field {
+    margin-top: 16px;
+}
+
+mat-horizontal-stepper {
+    background-color: rgba(87, 119, 131, 0.4);
+}
+
+.header {
+    text-decoration: underline;
+    text-decoration-color: #ff9900;
+}
+
+.mat-flat-button {
+    float: right;
+    margin-bottom: 15px;
+}
+
+/* .round_container:hover{
+    cursor: pointer!important;
+    border: 1px solid #ff9900;
+} */

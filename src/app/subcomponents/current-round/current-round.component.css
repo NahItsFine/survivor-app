@@ -1,0 +1,21 @@
+.mat-stepper-horizontal {
+    margin-top: 8px;
+}
+
+.mat-form-field {
+    margin-top: 16px;
+}
+
+.round_num {
+    color: #ff9900;
+}
+
+.header {
+    text-decoration: underline;
+    text-decoration-color: #ff9900;
+}
+
+#round_container:hover{
+    cursor: pointer;
+    border: 1px solid rgb(50, 86, 185);
+}

@@ -1,0 +1,6 @@
+Background (dark blue): #002533
+Secondary (white): #ffffff
+Primary (light blue): #577783
+Accent (orange): #ff9900
+
+Font: Roboto Medium

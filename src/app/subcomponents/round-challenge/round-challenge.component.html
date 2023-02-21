@@ -1,0 +1,84 @@
+<div *ngIf="!challenge_determined; else show_challenge">
+
+    <h3>A Challenge has not yet been determined.</h3>
+
+    <div *ngIf="is_admin">
+        <br>
+
+        <button mat-flat-button color="primary" (click)="onRandomizeChallenge()">
+            Randomize Challenge
+        </button>
+
+        <br><br><br>
+
+    </div>
+
+    <div *ngIf="show_spinner">
+        <mat-spinner color="accent" class="spinner"></mat-spinner>
+    </div>
+
+</div>
+
+<ng-template #show_challenge>
+    <h2>Challenge:</h2>
+    <hr class="text-accent">
+    <app-challenge-info [challenge]=challenge!></app-challenge-info>
+
+    <br>
+    <hr class="text-accent">
+    
+    <div *ngIf="is_admin">
+        <div *ngIf="!show_winner">
+            <div *ngIf="returned_tribes_list || players_list">
+                <div *ngIf="this.winner_is_individual; else winner_is_tribe">
+                    <mat-form-field appearance="fill">
+                        <div *ngIf="socket_payload.round_info.type < 3; else select_loser">
+                            <mat-label>Challenge Winner</mat-label>
+                        </div>
+                        <ng-template #select_loser>
+                            <mat-label>Challenge Loser</mat-label>
+                        </ng-template>
+                        <mat-select [(ngModel)]="selected_player" name="players_list">
+                            <mat-option *ngFor="let player of players_list" [value]="player[0]">
+                                {{player[1]}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <ng-template #winner_is_tribe>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Challenge Winner</mat-label>
+                        <mat-select [(ngModel)]="selected_tribe" name="tribes_list">
+                            <mat-option *ngFor="let tribe of tribes_list" [value]="tribe[0]">
+                                {{tribe[1]}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </ng-template>
+
+                <div *ngIf="socket_payload.round_info.type < 3; else submit_loser">
+                    <button mat-flat-button color="accent" (click)="onSubmitChallengeWinner()">
+                        Submit Challenge Winner
+                    </button>
+                </div>
+                <ng-template #submit_loser>
+                    <button mat-flat-button color="accent" (click)="onSubmitChallengeWinner()">
+                        Submit Challenge Loser
+                    </button>
+                </ng-template>
+
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="show_winner">
+        <div *ngIf="socket_payload.round_info.type < 3; else show_loser">
+            <h3><span class="text-accent">{{winner}}</span> has won this Challenge.</h3>
+        </div>
+        <ng-template #show_loser>
+            <h3><span class="text-accent">{{winner}}</span> has been eliminated from the Final Four.</h3>
+        </ng-template>
+    </div>
+    
+</ng-template>

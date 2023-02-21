@@ -1,0 +1,19 @@
+<mat-card class="primary" id="card">
+    <mat-card-header>
+        <div mat-card-avatar>
+            <mat-icon>{{challenge.icon}}</mat-icon>
+        </div>
+        <mat-card-title>{{challenge.id}}. {{challenge.name}}</mat-card-title>   
+    </mat-card-header>
+
+    <mat-card-content>
+        <h4>Description</h4>
+        <p>
+            {{challenge.description}}
+        </p>
+        <h4>Means</h4>
+        <p>
+            {{challenge.means}}
+        </p>
+    </mat-card-content>
+</mat-card>

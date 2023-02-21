@@ -1,0 +1,160 @@
+<div class="content-left" role="main">
+
+    <div class="back_div">
+        <button mat-flat-button color="accent" class="back_btn" (click)="onBack()">
+            Back to Game
+        </button>
+    </div>
+
+    <div *ngIf="socket_payload !== undefined">
+        <h1>Round #{{round_num}}</h1>
+    </div>
+
+    <div *ngIf="!user_still_playing && !is_admin && !is_final_round; else user_playing">
+        <h3>You have been eliminated and cannot participate in this round.</h3>
+    </div>
+
+    <ng-template #user_playing>
+
+        <div *ngIf="!user_still_playing && is_admin">
+            <hr class="text-accent">
+            <h3>You have been eliminated and cannot participate in this round.</h3>
+            <h3>As an admin, you are still in charge of progressing the round to the next stages.</h3>
+            <h3 class="text-warn">DO NOT VOTE OR PREDICT IDOL DROPS IF/WHEN PROMPTED, UNLESS IT IS THE FINALE!</h3>
+            <hr class="text-accent">
+        </div>
+
+        <div *ngIf="round_started; else round_not_started">
+            <mat-horizontal-stepper #stepper color="primary">
+                <!-- The following lines make the stepper icons show as numbers -->
+                <ng-template matStepperIcon="number" let-index="index">
+                    <span [ngStyle]="{'color': '#ffffff'}">{{index+1}}</span>
+                </ng-template>
+                <ng-template matStepperIcon="done" let-index="index">
+                    <span [ngStyle]="{'color': '#ffffff'}">{{index+1}}</span>
+                </ng-template>
+                <ng-template matStepperIcon="edit" let-index="index">
+                    <span [ngStyle]="{'color': '#ffffff'}">{{index+1}}</span>
+                </ng-template>
+                <!-- end -->
+
+                <!-- Determine which steps to show based on round type -->
+                <div [ngSwitch]="socket_payload.round_info.type">
+                    <!-- Final 4 -->
+                    <div *ngSwitchCase="2">
+                        <mat-step label="Tribal Council" id="tribal_step" color="accent">
+                            <app-round-council 
+                                [socket_payload] = 'this.socket_payload'
+                                [is_admin] = 'this.is_admin'
+                                [username] = 'this.username'
+                                [roundService] = 'this.roundService'
+                            ></app-round-council>
+                        </mat-step>
+                        
+                        <mat-step label="Challenge" id="challenge_step" color="accent">
+                            <!-- 4 = ROUND_PHASE_CHALLENGE_START -->
+                            <div *ngIf="socket_payload.round_info.phase < 4; else round_challenge"> 
+                                <h3>Challenge Phase of this round has not begun yet.</h3>
+                            </div>
+                            <ng-template #round_challenge>
+                                <app-round-challenge 
+                                    [socket_payload] = 'this.socket_payload'
+                                    [is_admin] = 'this.is_admin'
+                                    [username] = 'this.username'
+                                    [roundService] = 'this.roundService'
+                                ></app-round-challenge>
+                            </ng-template>
+                        </mat-step>
+                    </div>
+
+                    <!-- Final 3 -->
+                    <div *ngSwitchCase="3">
+                        <mat-step label="Challenge" id="challenge_step" color="accent">
+                            <!-- 4 = ROUND_PHASE_CHALLENGE_START -->
+                            <div *ngIf="socket_payload.round_info.phase < 4; else round_challenge"> 
+                                <h3>Challenge Phase of this round has not begun yet.</h3>
+                            </div>
+                            <ng-template #round_challenge>
+                                <app-round-challenge 
+                                    [socket_payload] = 'this.socket_payload'
+                                    [is_admin] = 'this.is_admin'
+                                    [username] = 'this.username'
+                                    [roundService] = 'this.roundService'
+                                ></app-round-challenge>
+                            </ng-template>
+                        </mat-step>
+
+                        <mat-step label="Final Council" id="final_council_step" color="accent">
+                            <!-- 7 = ROUND_PHASE_FINAL_COUNCIL -->
+                            <div *ngIf="socket_payload.round_info.phase < 7; else round_final_council">
+                                <h3>Final Council Phase has not begun yet.</h3>
+                            </div>
+                            <ng-template #round_final_council>
+                                <app-final-council 
+                                    [socket_payload] = 'this.socket_payload'
+                                    [is_admin] = 'this.is_admin'
+                                    [username] = 'this.username'
+                                    [roundService] = 'this.roundService'
+                                ></app-final-council>
+                            </ng-template>
+                        </mat-step>
+                    </div>
+
+                    <!-- Normal Game Round -->
+                    <div *ngSwitchDefault>
+                        <mat-step label="Tribal Council" id="tribal_step" color="accent">
+                            <app-round-council 
+                                [socket_payload] = 'this.socket_payload'
+                                [is_admin] = 'this.is_admin'
+                                [username] = 'this.username'
+                                [roundService] = 'this.roundService'
+                            ></app-round-council>
+                        </mat-step>
+                        
+                        <mat-step label="Challenge" id="challenge_step" color="accent">
+                            <!-- 4 = ROUND_PHASE_CHALLENGE_START -->
+                            <div *ngIf="socket_payload.round_info.phase < 4; else round_challenge"> 
+                                <h3>Challenge Phase of this round has not begun yet.</h3>
+                            </div>
+                            <ng-template #round_challenge>
+                                <app-round-challenge 
+                                    [socket_payload] = 'this.socket_payload'
+                                    [is_admin] = 'this.is_admin'
+                                    [username] = 'this.username'
+                                    [roundService] = 'this.roundService'
+                                ></app-round-challenge>
+                            </ng-template>
+                        </mat-step>
+
+                        <mat-step label="Idol Roll" id="idol_step" color="accent">
+                            <!-- 6 = ROUND_PHASE_IDOL_START -->
+                            <div *ngIf="socket_payload.round_info.phase < 6; else round_idol">
+                                <h3>Idol Phase of this round has not begun yet.</h3>
+                            </div>
+                            <ng-template #round_idol>
+                                <app-round-idol 
+                                    [socket_payload] = 'this.socket_payload'
+                                    [is_admin] = 'this.is_admin'
+                                    [username] = 'this.username'
+                                    [roundService] = 'this.roundService'
+                                ></app-round-idol>
+                            </ng-template>
+                        </mat-step>
+                    </div>
+                </div>
+
+            </mat-horizontal-stepper>
+        </div>
+    </ng-template>
+
+    <ng-template #round_not_started>
+        <h3>Round has not started yet.</h3>
+        <br>
+        <div *ngIf="is_admin && !round_started">
+            <button mat-flat-button color="primary" class="back_btn" (click)="onRoundStart()">
+                Start Round
+            </button>
+        </div>
+    </ng-template>
+
+</div>

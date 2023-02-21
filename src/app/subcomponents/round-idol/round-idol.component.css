@@ -1,0 +1,22 @@
+.underline {
+    text-decoration: underline;
+    text-decoration-color: #ff9900;
+}
+
+.mat-slider {
+    float: left;
+}
+
+.mat-slider-horizontal {
+    width: 60%;
+}
+
+.mat-slider-vertical {
+    height: 60%;
+}
+
+.idol_numbers {
+    text-decoration: underline;
+    text-decoration-color: #ff9900;
+    margin-left: 15px;
+}

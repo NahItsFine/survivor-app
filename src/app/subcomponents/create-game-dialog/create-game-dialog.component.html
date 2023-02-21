@@ -1,0 +1,52 @@
+<div class="content-dialog">
+
+    <h2>Create A New Game:</h2>
+    <form class="form">
+        <mat-form-field class="form-full-width">
+            <mat-label>Game Name</mat-label>
+            <input matInput #input_name value="">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field class="form-full-width">
+            <mat-label>Game Password</mat-label>
+            <input matInput id="in_password" #input_password value="" (change)="onPasswordChange(input_password.value, input_password_confirm.value)" value="" [type]="hide ? 'password' : 'text'">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field class="form-full-width">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput id="in_password_confirm" #input_password_confirm value="" (change)="onPasswordChange(input_password.value, input_password_confirm.value)" value="" [type]="hide ? 'password' : 'text'">
+        </mat-form-field>
+
+        <p id="p_password">
+            {{password_message}}
+        </p>
+
+        <br>
+
+        <mat-form-field class="form-full-width">
+            <mat-label>Invite Link to Discord Server</mat-label>
+            <input matInput #input_discord value="">
+        </mat-form-field>
+    </form>
+
+    <div class="buttons">
+        <button mat-flat-button color="accent" (click)="onBack()">Back</button>
+        <button mat-flat-button color="primary" (click)="onCreate(
+            input_name.value,
+            input_password.value,
+            input_password_confirm.value,
+            input_discord.value
+        )">Create Game</button>
+    </div>
+
+    <br>
+    
+    <p class='text-warn'>
+        {{submit_message}}
+    </p>
+
+</div>

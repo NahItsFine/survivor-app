@@ -1,0 +1,41 @@
+<mat-card *ngIf="current_round!.game_id" id="round_container" class="banner" (click)="go_to_round()">
+    <mat-card-header>
+        <div mat-card-avatar>
+            <mat-icon aria-hidden="false" aria-label="current games icon">videogame_asset</mat-icon>
+        </div>
+        <mat-card-title>Current Round</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-card class="banner">
+            <h2 class="round_num">Round {{current_round!.round_num}}</h2>
+            <h2><span class="header">Date:</span> {{current_round!.day}}</h2>
+        
+            <h2 *ngIf="winner_name"><span class="header">Winner:</span> {{winner_name}}</h2>
+            <h2 class="header" *ngIf="!current_round!.winning_player && !current_round!.winning_tribe">The Winner Has Yet To Be Decided</h2>
+        
+
+            <div *ngIf="is_final_round; else not_final_round">
+                <h2 *ngIf="current_round!.eliminated_player; else showThis"><span class="header">Eliminated Player:</span> {{eliminated_player}}</h2>
+                <ng-template #showThis>      
+                    <h2 class="header">No One Has Been Eliminated Yet</h2>
+                </ng-template>
+            </div>
+            <ng-template #not_final_round>
+                <h2 *ngIf="current_round!.eliminated_player; else showThis"><span class="header">Eliminated Player:</span> {{eliminated_player}}</h2>
+                <ng-template #showThis>      
+                    <h2 class="header">No One Has Been Voted Off Yet</h2>
+                </ng-template>
+            </ng-template>
+        
+            <h2 *ngIf="current_round!.type==0"><span class="header">Type:</span> Tribe Challenge</h2>
+            <h2 *ngIf="current_round!.type==1"><span class="header">Type:</span> Individual Challenge</h2>
+            <h2 *ngIf="current_round!.type==2"><span class="header">Type:</span> Final 4</h2>
+            <h2 *ngIf="current_round!.type==3"><span class="header">Type:</span> Final 3</h2>
+        
+            <h2 *ngIf="current_round!.challenge_id; else noChallenge"><span class="header">Challenge:</span> {{challenge_name}}</h2>
+            <ng-template #noChallenge>      
+                <h2 class="header">The Challenge Has Yet To Be Chosen</h2>
+            </ng-template>
+        </mat-card>
+    </mat-card-content>
+</mat-card>

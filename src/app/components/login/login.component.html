@@ -1,0 +1,30 @@
+<div class="content" role="main">
+
+  <img src="../assets/frontpage.png" alt="Virtual Survivor">
+  <p class="subtitle"> A social game for terrible people.</p>
+
+  <form class="form">
+    <mat-form-field class="form-full-width">
+      <mat-label>Username</mat-label>
+      <input matInput #input_username value="">
+    </mat-form-field>
+
+    <br>
+    
+    <mat-form-field class="form-full-width">
+      <mat-label>Password</mat-label>
+      <!-- <input matInput #input_password value=""> -->
+      <input matInput #input_password value="" [type]="hide ? 'password' : 'text'">
+    </mat-form-field>
+  </form>
+
+  <div class='element-center'>    
+      <button mat-flat-button color="primary" (click)="onLogin(input_username.value, input_password.value)">Login</button>
+      <p class='text-warn'>
+        {{login_message}}
+      </p>
+  </div>
+
+  <br>
+  <p class='text-center'>Don't have an account? Create one <a [routerLink]="['../create-account']">here</a>!</p>
+</div>

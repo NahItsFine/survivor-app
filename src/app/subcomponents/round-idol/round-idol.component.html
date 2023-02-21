@@ -1,0 +1,59 @@
+<div *ngIf="!idol_revealed; else reveal_idol">
+    <h2>Submit An Idol Prediction:</h2>
+
+    <div *ngIf="!prediction_received; else received_prediction">
+        <h3> Current Prediction: &nbsp;&nbsp;&nbsp; <span class="underline">{{slider_value}}</span></h3>
+
+        <div>
+            <mat-slider
+                class="idol-slider"
+                [max]="12"
+                [min]="1"
+                [step]="1"
+                thumbLabel
+                [tickInterval]="1"
+                [(ngModel)]="slider_value"
+            >
+            </mat-slider>
+
+            <button mat-flat-button style="margin-left: 25px;" color="primary" (click)="onSubmit()">
+                Submit Prediction
+            </button>
+        </div>
+    </div>
+
+    <ng-template #received_prediction>
+        Your idol prediction (<span class="underline">{{slider_value}}</span>) has been received!
+        <br>
+    </ng-template>
+
+    <br>
+
+    <div *ngIf="num_predictions_left || num_predictions_total">
+        <h3>Idol Predictions Submitted: <span class="idol_numbers">{{num_predictions_total! - num_predictions_left!}} / {{num_predictions_total}}</span></h3>
+    </div>
+
+    <div *ngIf="is_admin">
+        <button mat-flat-button color="accent" (click)="onRandomizeIdol()">
+            Randomize Idol 
+        </button>
+    </div>
+</div>
+
+<br>
+<hr class="text-accent">
+
+<ng-template #reveal_idol>
+    <h2>Idol Roll Result: <span class="underline">{{idol_result}}</span></h2>
+
+    <div *ngIf="show_text">
+        <div *ngIf="idol_result == slider_value; else incorrect_prediction">
+            <h3>You have correctly predicted the Idol Roll, and you have gained an Immunity Idol!</h3>
+        </div>
+
+        <ng-template #incorrect_prediction>
+            <h1 style='font-family: "Comic Sans MS", "Comic Sans", cursive;'>sucks.</h1>
+        </ng-template>
+    </div>
+    
+</ng-template>

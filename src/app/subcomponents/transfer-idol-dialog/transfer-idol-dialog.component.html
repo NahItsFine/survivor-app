@@ -1,0 +1,19 @@
+<div class="content-dialog">
+
+    <h2>Transfer Idol</h2>
+    <h3>*Only Transfer If You Are Sure!</h3>
+    <mat-form-field appearance="fill">
+        <mat-label>Who You Blessing?</mat-label>
+        <mat-select [(ngModel)]="selected_player" name="active_game_players">
+            <mat-option *ngFor="let player of active_game_players" [value]="[player.username, player.name]">
+                {{player.name}} - {{player.discord_name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="buttons">
+        <button mat-flat-button color="primary" (click)="onBack()">Nevermind</button>
+        <button mat-flat-button color="accent" (click)="transferIdol()">Pass It On!</button>
+    </div>
+
+</div>
